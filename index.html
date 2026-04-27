@@ -1,0 +1,1273 @@
+<!-- 
+PALETTE: Cyberpunk Developer (Vibrant Blues, Neon Cyans, Energetic Oranges). HEX: #0f172a, #1e293b, #06b6d4, #f97316, #a855f7, #10b981.
+PLAN: 
+1. Introduction: Hook the user on the specific needs of VR/XR game dev. 
+2. Resource Allocation: Show component importance using a Doughnut chart. 
+3. GPU Hierarchy: Compare NVIDIA mobile GPUs using a Bar chart. 
+4. The VRAM Factor: Show historical VRAM needs via Line chart. 
+5. Workload Profile: Compare Gamer vs Developer needs via Radar chart.
+6. Laptop Selection by Purpose: Breakdown based on project scope.
+7. [NEW] I/O & Multiplexing: Visual flow diagram showing dGPU routing importance.
+8. [NEW] Exhaustive Evaluation: Cards detailing top 2026 mobile workstations.
+9. [NEW] Hardware Matrices: Data tables comparing the 2026 lineup.
+10. [NEW] Strategic Conclusions & Checklist.
+VISUALIZATIONS:
+- Doughnut Chart -> Goal: Compare/Composition -> Justification: Best for showing how budget/importance should be divided among system components. (Chart.js, NO SVG)
+- Bar Chart -> Goal: Compare -> Justification: Clear side-by-side comparison of different GPU tiers and their synthetic VR performance. (Chart.js, NO SVG)
+- Line Chart -> Goal: Change -> Justification: Effectively illustrates the increasing trend of VRAM requirements over time. (Chart.js, NO SVG)
+- Radar Chart -> Goal: Relationships/Organize -> Justification: Perfect for comparing multi-variable workload profiles (Gamer vs Dev). (Chart.js, NO SVG)
+- HTML Flow Diagram -> Goal: Organize/Processes -> Justification: Shows the relationship and data flow of I/O routing for VR. (Tailwind HTML, NO SVG)
+CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output. All diagrams and charts use Canvas or structured HTML/CSS.
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>High-End Laptops for VR Development-Irie-Sensei-Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        background-color: #0f172a;
+        color: #f8fafc;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 350px;
+        max-height: 400px;
+      }
+      @media (min-width: 768px) {
+        .chart-container {
+          height: 400px;
+        }
+      }
+      .glass-card {
+        background: rgba(30, 41, 59, 0.8);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .gradient-text {
+        background: linear-gradient(to right, #06b6d4, #a855f7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .table-container {
+        scrollbar-width: thin;
+        scrollbar-color: #06b6d4 #1e293b;
+      }
+      .table-container::-webkit-scrollbar {
+        height: 8px;
+      }
+      .table-container::-webkit-scrollbar-track {
+        background: #1e293b;
+      }
+      .table-container::-webkit-scrollbar-thumb {
+        background-color: #06b6d4;
+        border-radius: 20px;
+      }
+    </style>
+  </head>
+  <body class="antialiased selection:bg-cyan-500 selection:text-white pb-20">
+    <nav
+      class="sticky top-0 z-50 glass-card border-b border-slate-700 py-4 px-6 flex justify-between items-center"
+    >
+      <div class="text-xl font-bold tracking-wider text-cyan-400">
+        XR DEV <span class="text-slate-300">RIGS</span>
+      </div>
+      <div class="text-sm font-semibold text-slate-400">
+        Irie-Sensei Laboratory
+      </div>
+    </nav>
+
+    <header class="max-w-5xl mx-auto px-6 py-16 text-center">
+      <div
+        class="inline-block p-4 rounded-full bg-slate-800 mb-6 shadow-lg shadow-cyan-500/20 text-4xl"
+      >
+        🚀
+      </div>
+      <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
+        Architecting Worlds: <br /><span class="gradient-text"
+          >The Ultimate XR Laptop</span
+        >
+      </h1>
+      <p
+        class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed"
+      >
+        Developing immersive Virtual Reality (VR) and Extended Reality (XR)
+        experiences in Unity and Unreal Engine 5 demands computational hardware
+        that far exceeds standard gaming requirements. Developers are not just
+        rendering a game; They are compiling it, baking its lighting, and
+        running it simultaneously at 90+ FPS per eye.
+      </p>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <section
+        class="col-span-1 md:col-span-2 glass-card rounded-2xl p-8 mb-4 shadow-xl"
+      >
+        <h2 class="text-2xl md:text-3xl font-bold mb-4 flex items-center gap-3">
+          <span class="text-3xl text-orange-500">⚙️</span> Component Priority
+          Hierarchy
+        </h2>
+        <p class="text-slate-300 mb-8 text-lg">
+          When budgeting for a game development laptop, priority shifts
+          dramatically compared to consumer laptops. The NVIDIA GPU is the
+          undisputed king for real-time rendering, light baking, and
+          AI-accelerated workflows (DLSS/OptiX). Following closely is a
+          high-core-count CPU necessary for shader compilation and code
+          building.
+        </p>
+        <div class="flex flex-col lg:flex-row items-center gap-8">
+          <div class="w-full lg:w-1/2">
+            <div class="chart-container">
+              <canvas id="budgetChart"></canvas>
+            </div>
+          </div>
+          <div class="w-full lg:w-1/2 space-y-4">
+            <div class="bg-slate-800 p-4 rounded-lg border-l-4 border-cyan-500">
+              <h4 class="font-bold text-cyan-400 text-lg">
+                The GPU Anchor (45%)
+              </h4>
+              <p class="text-sm text-slate-300">
+                Crucial for driving dual-display high-resolution VR headsets
+                without framerate drops, which cause motion sickness.
+              </p>
+            </div>
+            <div
+              class="bg-slate-800 p-4 rounded-lg border-l-4 border-purple-500"
+            >
+              <h4 class="font-bold text-purple-400 text-lg">
+                The CPU Engine (25%)
+              </h4>
+              <p class="text-sm text-slate-300">
+                Unreal Engine C++ compilation and Unity script assembly heavily
+                utilize multi-threading. Look for Intel Core Ultra 9 or AMD
+                Ryzen 9.
+              </p>
+            </div>
+            <div
+              class="bg-slate-800 p-4 rounded-lg border-l-4 border-orange-500"
+            >
+              <h4 class="font-bold text-orange-400 text-lg">
+                Memory Pool (15%)
+              </h4>
+              <p class="text-sm text-slate-300">
+                32GB is the bare minimum. 64GB+ is recommended to keep the
+                Engine, IDE, and 3D modeling software open simultaneously.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="glass-card rounded-2xl p-8 shadow-xl">
+        <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
+          <span class="text-3xl text-cyan-400">🎮</span> Base GPU Architecture
+        </h2>
+        <p class="text-slate-300 mb-6">
+          Mobile GPUs are strictly power-limited compared to their desktop
+          counterparts. For VR development, advancing into the high-end tier
+          represents the optimal sweet spot between rendering capability and
+          laptop thermal constraints.
+        </p>
+        <div class="chart-container">
+          <canvas id="gpuChart"></canvas>
+        </div>
+        <p class="text-xs text-slate-400 mt-4 text-center">
+          *Synthetic baseline index representing combined rasterization, ray
+          tracing, and VR encoding capabilities.
+        </p>
+      </section>
+
+      <section class="glass-card rounded-2xl p-8 shadow-xl">
+        <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
+          <span class="text-3xl text-purple-400">🧠</span> The VRAM Bottleneck
+        </h2>
+        <p class="text-slate-300 mb-6">
+          Video RAM (VRAM) is critical for XR. High-resolution textures,
+          unoptimized development assets, and frame buffers for two high-res eye
+          displays will instantly crash an engine if VRAM is exceeded.
+        </p>
+        <div class="chart-container">
+          <canvas id="vramChart"></canvas>
+        </div>
+        <p class="text-xs text-slate-400 mt-4 text-center">
+          *Minimum recommended VRAM for a smooth editor experience without
+          aggressive texture downscaling.
+        </p>
+      </section>
+
+      <section
+        class="col-span-1 md:col-span-2 glass-card rounded-2xl p-8 shadow-xl mt-4"
+      >
+        <h2 class="text-2xl md:text-3xl font-bold mb-4 flex items-center gap-3">
+          <span class="text-3xl text-green-500">⚖️</span> Workload Shift: Gamer
+          vs. Developer
+        </h2>
+        <p class="text-slate-300 mb-8 text-lg">
+          A high-end gaming laptop is not necessarily a perfect development
+          laptop. While gamers prioritize peak rasterization and display refresh
+          rates, XR developers require sustained load stability, massive
+          multitasking capabilities, and hardware-accelerated light baking.
+        </p>
+        <div class="flex flex-col md:flex-row items-center gap-8">
+          <div class="w-full md:w-1/2">
+            <div
+              class="chart-container"
+              style="height: 450px; max-height: 500px"
+            >
+              <canvas id="radarChart"></canvas>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 grid grid-cols-1 gap-4">
+            <div class="bg-slate-800 p-5 rounded-xl flex items-start gap-4">
+              <div class="text-2xl mt-1">🔥</div>
+              <div>
+                <h4 class="font-bold text-white text-lg">Sustained Load</h4>
+                <p class="text-slate-400 text-sm">
+                  Light baking and shader compilation can pin the CPU and GPU to
+                  100% for hours. Superior cooling is mandatory to prevent
+                  thermal throttling.
+                </p>
+              </div>
+            </div>
+            <div class="bg-slate-800 p-5 rounded-xl flex items-start gap-4">
+              <div class="text-2xl mt-1">🗂️</div>
+              <div>
+                <h4 class="font-bold text-white text-lg">Asset Compilation</h4>
+                <p class="text-slate-400 text-sm">
+                  Unreal Engine relies heavily on compiling thousands of
+                  shaders. A high core-count CPU (16+ cores) drastically reduces
+                  wait times.
+                </p>
+              </div>
+            </div>
+            <div class="bg-slate-800 p-5 rounded-xl flex items-start gap-4">
+              <div class="text-2xl mt-1">⚡</div>
+              <div>
+                <h4 class="font-bold text-white text-lg">Multitasking</h4>
+                <p class="text-slate-400 text-sm">
+                  Running the Engine, an IDE, Blender/Maya, Photoshop, and a web
+                  browser requires immense amounts of high-speed DDR5 RAM.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="col-span-1 md:col-span-2 glass-card rounded-2xl p-8 shadow-xl mt-4 border-t-4 border-pink-500/50"
+      >
+        <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3">
+          <span class="text-3xl text-pink-500">🎯</span> Laptop Selection by
+          Development Purpose
+        </h2>
+        <p class="text-slate-300 mb-8 text-lg">
+          Our specific target platform dictates the hardware investment.
+          Over-specifying wastes budget, while under-specifying bottlenecks the
+          pipeline.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div
+            class="bg-slate-800/80 p-6 rounded-xl border border-slate-600 hover:border-cyan-500 transition-colors shadow-lg"
+          >
+            <div class="text-3xl mb-4">🥽</div>
+            <h3 class="text-xl font-bold text-white mb-2">Standalone VR</h3>
+            <p class="text-cyan-400 font-semibold mb-4 text-sm">
+              Meta Quest 3 / Pico 4
+            </p>
+            <p class="text-slate-400 text-sm mb-6 min-h-[80px]">
+              Focuses heavily on Android build times and extreme mobile
+              optimization. Heavy raw GPU power is slightly less critical than
+              fast CPU compilation.
+            </p>
+          </div>
+
+          <div
+            class="bg-slate-800/80 p-6 rounded-xl border border-slate-600 hover:border-purple-500 transition-colors shadow-lg relative overflow-hidden"
+          >
+            <div
+              class="absolute top-0 right-0 bg-purple-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg tracking-wider"
+            >
+              SWEET SPOT
+            </div>
+            <div class="text-3xl mb-4">🖥️</div>
+            <h3 class="text-xl font-bold text-white mb-2">High-End PCVR</h3>
+            <p class="text-purple-400 font-semibold mb-4 text-sm">
+              SteamVR / Valve Index
+            </p>
+            <p class="text-slate-400 text-sm mb-6 min-h-[80px]">
+              Requires driving dual high-resolution displays at 90Hz+
+              continuously. Raw rasterization and high VRAM are the primary
+              bottlenecks here.
+            </p>
+          </div>
+
+          <div
+            class="bg-slate-800/80 p-6 rounded-xl border border-slate-600 hover:border-orange-500 transition-colors shadow-lg"
+          >
+            <div class="text-3xl mb-4">🎬</div>
+            <h3 class="text-xl font-bold text-white mb-2">
+              Virtual Production
+            </h3>
+            <p class="text-orange-400 font-semibold mb-4 text-sm">
+              UE5 Lumen / ArchViz
+            </p>
+            <p class="text-slate-400 text-sm mb-6 min-h-[80px]">
+              Extreme workloads utilizing unoptimized cinematic assets, complex
+              real-time ray tracing, and massive 8K/16K texture pools.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="col-span-1 md:col-span-2 glass-card rounded-2xl p-8 shadow-xl mt-4 border-t-4 border-cyan-400"
+      >
+        <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3">
+          <span class="text-3xl text-cyan-400">🔌</span> Input/Output Matrices &
+          VR Multiplexing
+        </h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div>
+            <h3 class="text-xl font-bold text-white mb-3">
+              Thunderbolt 5 & DisplayPort 2.1
+            </h3>
+            <p class="text-slate-300 text-sm mb-4 leading-relaxed">
+              The integration of Thunderbolt 5 represents a paradigm shift for
+              2026 workstations, offering
+              <strong>120 Gbps of bi-directional bandwidth</strong> (3x TB4).
+              This supports native DP 2.1 and PD 3.1, allowing developers to run
+              multiple uncompressed 4K displays or 8K displays from a single hub
+              without bus saturation.
+            </p>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Coupled with <strong>HDMI 2.1 FRL</strong> for 4K/120Hz reference
+              monitors, and <strong>2.5G LAN / Wi-Fi 7</strong> for massive
+              Perforce/Git repository syncing, I/O is no longer an
+              afterthought—it's the backbone of the workflow.
+            </p>
+          </div>
+          <div class="bg-slate-900 rounded-xl p-5 border border-slate-700">
+            <h3 class="text-lg font-bold text-white mb-4">
+              The dGPU Routing Trap (MUX Switch)
+            </h3>
+            <p class="text-slate-400 text-xs mb-4">
+              Tethered PC-VR headsets (PSVR2 PC, Valve Index) require physical
+              connection to the discrete NVIDIA GPU. Routing through the iGPU
+              causes latency, black screens, or failure to initialize.
+            </p>
+
+            <div class="space-y-4">
+              <div
+                class="bg-green-950/40 border border-green-500/50 rounded p-3 flex flex-col sm:flex-row items-center justify-between text-center sm:text-left gap-2"
+              >
+                <div
+                  class="bg-slate-800 px-3 py-1 rounded text-green-400 font-bold text-xs"
+                >
+                  RTX 5090
+                </div>
+                <div class="text-green-500 text-lg">➔</div>
+                <div class="text-xs text-slate-300 px-2">Direct TB5 / MUX</div>
+                <div class="text-green-500 text-lg">➔</div>
+                <div
+                  class="bg-slate-800 px-3 py-1 rounded text-white font-bold text-xs flex items-center gap-1"
+                >
+                  🥽 VR Headset <span class="text-green-400">✔</span>
+                </div>
+              </div>
+
+              <div
+                class="bg-red-950/40 border border-red-500/50 rounded p-3 flex flex-col sm:flex-row items-center justify-between text-center sm:text-left gap-2"
+              >
+                <div
+                  class="bg-slate-800 px-3 py-1 rounded text-green-400 font-bold text-xs"
+                >
+                  RTX 5090
+                </div>
+                <div class="text-red-500 text-lg">➔</div>
+                <div
+                  class="bg-slate-800 px-3 py-1 rounded text-blue-400 font-bold text-xs"
+                >
+                  Intel iGPU
+                </div>
+                <div class="text-red-500 text-lg">➔</div>
+                <div
+                  class="bg-slate-800 px-3 py-1 rounded text-slate-400 font-bold text-xs flex items-center gap-1"
+                >
+                  🥽 VR Headset <span class="text-red-400">✖ (Latency)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="col-span-1 md:col-span-2 glass-card rounded-2xl p-8 shadow-xl mt-4"
+      >
+        <h2
+          class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3 text-center justify-center w-full"
+        >
+          Exhaustive Evaluation of 2026 Premium Workstations
+        </h2>
+        <p class="text-slate-300 text-center max-w-4xl mx-auto mb-10 text-lg">
+          Dissecting the pinnacle of mobile processing power through the lens of
+          AAA game development, engine compilation, and immersive XR
+          engineering.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            class="bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-6 hover:border-purple-500 transition-all duration-300 relative"
+          >
+            <div class="absolute -top-3 -right-3 text-4xl">👑</div>
+            <h3 class="text-xl font-bold text-white">
+              MSI Titan 18 HX AI (2026 Edition)
+            </h3>
+            <p class="text-purple-400 font-semibold text-sm mb-3">
+              The Desktop Replacement
+            </p>
+            <p class="text-slate-400 text-sm mb-4">
+              Optimal for AAA VR and cinematics. Massive 270W thermal budget
+              prevents throttling during code compilation & light baking.
+            </p>
+            <ul class="text-xs text-slate-300 space-y-2">
+              <li>
+                <span class="text-cyan-400">★</span>
+                <strong>Storage:</strong> 4x M.2 Slots (RAID 0, 2664 MBps) -
+                Eliminates DDC hitching.
+              </li>
+              <li>
+                <span class="text-cyan-400">★</span>
+                <strong>Display:</strong> 18" 4K 120Hz Mini-LED (112.4% DCI-P3).
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-6 hover:border-cyan-500 transition-all duration-300 relative"
+          >
+            <div class="absolute -top-3 -right-3 text-4xl">❄️</div>
+            <h3 class="text-xl font-bold text-white">
+              ASUS ROG Strix SCAR 18 (2026) ROG SCAR 18
+            </h3>
+            <p class="text-cyan-400 font-semibold text-sm mb-3">
+              Thermally Balanced Behemoth
+            </p>
+            <p class="text-slate-400 text-sm mb-4">
+              Balances extreme power with Tri-Fan technology and vapor chambers
+              for prolonged UE Lumen rendering sessions.
+            </p>
+            <ul class="text-xs text-slate-300 space-y-2">
+              <li>
+                <span class="text-cyan-400">★</span>
+                <strong>Display:</strong> 18" 2.5K 240Hz Mini-LED - Perfect for
+                motion interaction testing.
+              </li>
+              <li>
+                <span class="text-cyan-400">★</span> <strong>I/O:</strong> Dual
+                TB5, HDMI 2.1 FRL, 2.5G LAN.
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-6 hover:border-green-500 transition-all duration-300 relative"
+          >
+            <div class="absolute -top-3 -right-3 text-4xl">🧳</div>
+            <h3 class="text-xl font-bold text-white">Razer Blade 16</h3>
+            <p class="text-green-400 font-semibold text-sm mb-3">
+              Ultra-Mobile Powerhouse
+            </p>
+            <p class="text-slate-400 text-sm mb-4">
+              Unmatched portability for indie devs and client presentations.
+              CNC-milled chassis requires HyperBoost pad for max 175W TGP.
+            </p>
+            <ul class="text-xs text-slate-300 space-y-2">
+              <li>
+                <span class="text-cyan-400">★</span> <strong>RAM:</strong> 64GB
+                LPDDR5X-9600 - Extreme memory bandwidth.
+              </li>
+              <li>
+                <span class="text-cyan-400">★</span>
+                <strong>Display:</strong> 16" QHD+ 240Hz OLED - Infinite
+                contrast for dark VR scenes.
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-6 hover:border-orange-500 transition-all duration-300 relative md:col-span-1 lg:col-span-1"
+          >
+            <div class="absolute -top-3 -right-3 text-4xl">⚖️</div>
+            <h3 class="text-xl font-bold text-white">
+              Lenovo Legion Pro 7i Gen 10 Gen 10
+            </h3>
+            <p class="text-orange-400 font-semibold text-sm mb-3">
+              Value-to-Performance Intersection
+            </p>
+            <p class="text-slate-400 text-sm mb-4">
+              The sweet spot for equipping studios. Dynamic AI Engine+ power
+              allocation between CPU/GPU.
+            </p>
+            <ul class="text-xs text-slate-300 space-y-2">
+              <li>
+                <span class="text-cyan-400">★</span>
+                <strong>Value:</strong> Lowest cost entry to RTX 5090 tier.
+              </li>
+              <li>
+                <span class="text-cyan-400">★</span>
+                <strong>Warning:</strong> Verify exact SKU for direct dGPU
+                Type-C routing.
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-6 hover:border-yellow-500 transition-all duration-300 relative md:col-span-2 lg:col-span-2"
+          >
+            <div class="absolute -top-3 -right-3 text-4xl">🏢</div>
+            <h3 class="text-xl font-bold text-white">Dell Pro Max 18 Plus</h3>
+            <p class="text-yellow-400 font-semibold text-sm mb-3">
+              Enterprise ISV-Certified Juggernaut
+            </p>
+            <p class="text-slate-400 text-sm mb-4">
+              Uncompromising workstation for architectural visualization,
+              digital twins, and military sim training. Uses enterprise RTX PRO
+              drivers for absolute stability in CAD/Maya.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+              <ul class="text-xs text-slate-300 space-y-2">
+                <li>
+                  <span class="text-cyan-400">★</span>
+                  <strong>RAM Scale:</strong> Up to 256GB CAMM2 Memory.
+                </li>
+                <li>
+                  <span class="text-cyan-400">★</span>
+                  <strong>Storage Scale:</strong> 4x M.2 Slots (Up to 16TB).
+                </li>
+              </ul>
+              <ul class="text-xs text-slate-300 space-y-2">
+                <li>
+                  <span class="text-cyan-400">★</span> <strong>GPU:</strong> RTX
+                  PRO 5000 (Blackwell, 24GB).
+                </li>
+                <li>
+                  <span class="text-cyan-400">★</span> <strong>I/O:</strong> 2x
+                  TB5, 1x TB4, 5G LTE, Smart Card.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="col-span-1 md:col-span-2 glass-card rounded-2xl p-8 shadow-xl mt-4"
+      >
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+          <span class="text-3xl text-cyan-400">📊</span> Comparative Hardware
+          Matrices (2026 Architectures)
+        </h2>
+
+        <h3
+          class="text-lg font-bold text-slate-300 mb-3 mt-6 border-l-4 border-cyan-500 pl-3"
+        >
+          Table 1: Core Architectural Comparison
+        </h3>
+        <div
+          class="table-container overflow-x-auto rounded-lg border border-slate-700 mb-8"
+        >
+          <table class="w-full text-left border-collapse min-w-[800px]">
+            <thead class="bg-slate-800 text-cyan-400 text-sm">
+              <tr>
+                <th class="p-4 border-b border-slate-700 font-semibold">
+                  Laptop Model
+                </th>
+                <th class="p-4 border-b border-slate-700 font-semibold">
+                  Processor (CPU)
+                </th>
+                <th class="p-4 border-b border-slate-700 font-semibold">
+                  GPU (24GB VRAM)
+                </th>
+                <th class="p-4 border-b border-slate-700 font-semibold">
+                  Memory Topology
+                </th>
+                <th class="p-4 border-b border-slate-700 font-semibold">
+                  Max Storage
+                </th>
+                <th class="p-4 border-b border-slate-700 font-semibold">
+                  Display Tech
+                </th>
+              </tr>
+            </thead>
+            <tbody class="text-sm text-slate-300">
+              <tr
+                class="even:bg-slate-800/30 hover:bg-slate-800/60 transition-colors"
+              >
+                <td
+                  class="p-4 border-b border-slate-700/50 font-bold text-white"
+                >
+                  MSI Titan 18 HX AI (2026 Edition)
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  Intel Core Ultra 9 285HX
+                </td>
+                <td class="p-4 border-b border-slate-700/50 text-green-400">
+                  RTX 5090
+                </td>
+                <td class="p-4 border-b border-slate-700/50">128GB SO-DIMM</td>
+                <td class="p-4 border-b border-slate-700/50">
+                  4x M.2 (RAID 0)
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  18" 4K 120Hz Mini-LED
+                </td>
+              </tr>
+              <tr
+                class="even:bg-slate-800/30 hover:bg-slate-800/60 transition-colors"
+              >
+                <td
+                  class="p-4 border-b border-slate-700/50 font-bold text-white"
+                >
+                  ASUS ROG Strix SCAR 18 (2026) SCAR 18
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  Intel Core Ultra 9 290HX+
+                </td>
+                <td class="p-4 border-b border-slate-700/50 text-green-400">
+                  RTX 5090
+                </td>
+                <td class="p-4 border-b border-slate-700/50">64GB SO-DIMM</td>
+                <td class="p-4 border-b border-slate-700/50">
+                  2x M.2 (RAID 0)
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  18" 2.5K 240Hz Mini-LED
+                </td>
+              </tr>
+              <tr
+                class="even:bg-slate-800/30 hover:bg-slate-800/60 transition-colors"
+              >
+                <td
+                  class="p-4 border-b border-slate-700/50 font-bold text-white"
+                >
+                  Razer Blade 16
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  Intel Core Ultra 9 386H
+                </td>
+                <td class="p-4 border-b border-slate-700/50 text-green-400">
+                  RTX 5090
+                </td>
+                <td class="p-4 border-b border-slate-700/50 text-purple-400">
+                  64GB LPDDR5X-9600
+                </td>
+                <td class="p-4 border-b border-slate-700/50">2x M.2 Slots</td>
+                <td class="p-4 border-b border-slate-700/50">
+                  16" QHD+ 240Hz OLED
+                </td>
+              </tr>
+              <tr
+                class="even:bg-slate-800/30 hover:bg-slate-800/60 transition-colors"
+              >
+                <td
+                  class="p-4 border-b border-slate-700/50 font-bold text-white"
+                >
+                  Lenovo Legion Pro 7i Gen 10
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  Intel Core Ultra 9 275HX
+                </td>
+                <td class="p-4 border-b border-slate-700/50 text-green-400">
+                  RTX 5090
+                </td>
+                <td class="p-4 border-b border-slate-700/50">64GB SO-DIMM</td>
+                <td class="p-4 border-b border-slate-700/50">2x M.2 Slots</td>
+                <td class="p-4 border-b border-slate-700/50">
+                  16" 2K 240Hz OLED
+                </td>
+              </tr>
+              <tr
+                class="even:bg-slate-800/30 hover:bg-slate-800/60 transition-colors bg-blue-900/10"
+              >
+                <td
+                  class="p-4 border-b border-slate-700/50 font-bold text-white"
+                >
+                  Dell Pro Max 18 Plus
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  Intel Core Ultra 9 285HX
+                </td>
+                <td
+                  class="p-4 border-b border-slate-700/50 text-blue-400 font-bold"
+                >
+                  RTX PRO 5000
+                </td>
+                <td
+                  class="p-4 border-b border-slate-700/50 text-orange-400 font-bold"
+                >
+                  256GB CAMM2
+                </td>
+                <td
+                  class="p-4 border-b border-slate-700/50 text-orange-400 font-bold"
+                >
+                  4x M.2 (16TB)
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  18" QHD+ 120Hz IPS
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3
+          class="text-lg font-bold text-slate-300 mb-3 border-l-4 border-purple-500 pl-3"
+        >
+          Table 2: I/O and XR Connectivity Matrix
+        </h3>
+        <div
+          class="table-container overflow-x-auto rounded-lg border border-slate-700"
+        >
+          <table class="w-full text-left border-collapse min-w-[800px]">
+            <thead class="bg-slate-800 text-purple-400 text-sm">
+              <tr>
+                <th class="p-4 border-b border-slate-700 font-semibold">
+                  Laptop Model
+                </th>
+                <th class="p-4 border-b border-slate-700 font-semibold">
+                  Thunderbolt Standard
+                </th>
+                <th class="p-4 border-b border-slate-700 font-semibold">
+                  Dedicated VR Ports
+                </th>
+                <th class="p-4 border-b border-slate-700 font-semibold">
+                  Networking
+                </th>
+                <th class="p-4 border-b border-slate-700 font-semibold">
+                  Active Cooling
+                </th>
+              </tr>
+            </thead>
+            <tbody class="text-sm text-slate-300">
+              <tr
+                class="even:bg-slate-800/30 hover:bg-slate-800/60 transition-colors"
+              >
+                <td
+                  class="p-4 border-b border-slate-700/50 font-bold text-white"
+                >
+                  MSI Titan 18 HX AI (2026 Edition)
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  2x TB5 (120Gbps)
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  HDMI 2.1 (8K), DP via TB5
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  Wi-Fi 7, 2.5G LAN
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  Dual Fan, Vapor Chamber
+                </td>
+              </tr>
+              <tr
+                class="even:bg-slate-800/30 hover:bg-slate-800/60 transition-colors"
+              >
+                <td
+                  class="p-4 border-b border-slate-700/50 font-bold text-white"
+                >
+                  ASUS ROG Strix SCAR 18 (2026) SCAR 18
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  2x TB5 (120Gbps)
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  HDMI 2.1 FRL, DP via TB5
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  Wi-Fi 7, 2.5G LAN
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  Tri-Fan, Vapor Chamber
+                </td>
+              </tr>
+              <tr
+                class="even:bg-slate-800/30 hover:bg-slate-800/60 transition-colors"
+              >
+                <td
+                  class="p-4 border-b border-slate-700/50 font-bold text-white"
+                >
+                  Razer Blade 16
+                </td>
+                <td class="p-4 border-b border-slate-700/50">1x TB5, 1x TB4</td>
+                <td class="p-4 border-b border-slate-700/50">
+                  HDMI 2.1, DP via TB5
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  Wi-Fi 7, BT 6.0
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  Dual Fan Vapor (+ Pad)
+                </td>
+              </tr>
+              <tr
+                class="even:bg-slate-800/30 hover:bg-slate-800/60 transition-colors"
+              >
+                <td
+                  class="p-4 border-b border-slate-700/50 font-bold text-white"
+                >
+                  Lenovo Legion Pro 7i Gen 10
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  TB4 / TB5 Support
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  HDMI 2.1, DP via Type-C
+                </td>
+                <td class="p-4 border-b border-slate-700/50">Wi-Fi 7</td>
+                <td class="p-4 border-b border-slate-700/50">
+                  Coldfront Vapor
+                </td>
+              </tr>
+              <tr
+                class="even:bg-slate-800/30 hover:bg-slate-800/60 transition-colors"
+              >
+                <td
+                  class="p-4 border-b border-slate-700/50 font-bold text-white"
+                >
+                  Dell Pro Max 18 Plus
+                </td>
+                <td class="p-4 border-b border-slate-700/50">2x TB5, 1x TB4</td>
+                <td class="p-4 border-b border-slate-700/50">
+                  HDMI 2.1 FRL, DP via TB5
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  Wi-Fi 7, 2.5G LAN, 5G LTE
+                </td>
+                <td class="p-4 border-b border-slate-700/50">
+                  Tri-Fan, Stacked Topology
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="col-span-1 md:col-span-2 mt-8 mb-4">
+        <div
+          class="bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 border-l-4 border-orange-500 shadow-xl"
+        >
+          <h2 class="text-3xl font-bold mb-4 text-white">
+            Strategic Conclusions for Deployment
+          </h2>
+          <p class="text-slate-300 mb-6 text-lg">
+            The 2026 iteration of mobile hardware erases the performance gap
+            between desktops and laptops. The
+            <strong>RTX 5090 with 24GB GDDR7 VRAM</strong> provides the
+            foundational power for UE5.5 Lumen and Unity 6.4 spatial computing
+            simultaneously. The choice depends entirely on workflow scale:
+          </p>
+
+          <div class="space-y-4">
+            <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+              <span class="font-bold text-purple-400"
+                >For AAA & High-Fidelity Virtual Production:</span
+              >
+              <span class="text-slate-300 ml-2"
+                >Choose the
+                <strong class="text-white"
+                  >MSI Titan 18 HX AI (2026 Edition)</strong
+                >
+                for unparalleled asset streaming (4x SSDs) and zero thermal
+                throttling during compilation.</span
+              >
+            </div>
+            <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+              <span class="font-bold text-green-400"
+                >For Agile Indies & XR Freelancers:</span
+              >
+              <span class="text-slate-300 ml-2"
+                >Choose the <strong class="text-white">Razer Blade 16</strong>.
+                Extreme LPDDR5X bandwidth in a highly portable chassis for
+                client demos.</span
+              >
+            </div>
+            <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+              <span class="font-bold text-orange-400"
+                >For Value-Conscious Studios:</span
+              >
+              <span class="text-slate-300 ml-2"
+                >Choose the
+                <strong class="text-white">Lenovo Legion Pro 7i Gen 10</strong>.
+                The smartest financial choice for outfitting entire teams
+                without sacrificing the core RTX 5090 architecture.</span
+              >
+            </div>
+            <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+              <span class="font-bold text-blue-400"
+                >For Enterprise Digital Twins & CAD:</span
+              >
+              <span class="text-slate-300 ml-2"
+                >Choose the
+                <strong class="text-white">Dell Pro Max 18 Plus</strong>.
+                Absolute reliability via ISV-certified drivers and an unmatched
+                256GB CAMM2 memory ceiling for photogrammetry.</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="col-span-1 md:col-span-2 mt-4 mb-12">
+        <div
+          class="bg-gradient-to-r from-cyan-900 to-slate-800 rounded-2xl p-8 border border-cyan-500/30"
+        >
+          <h2 class="text-3xl font-bold mb-6 text-white text-center">
+            The XR Developer Base Checklist
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div
+              class="bg-slate-900/50 p-6 rounded-xl text-center border-t-4 border-cyan-400"
+            >
+              <div class="text-4xl mb-3">💻</div>
+              <h3 class="text-cyan-400 font-bold text-xl mb-2">GPU</h3>
+              <p class="text-white font-semibold">
+                NVIDIA RTX 4080 / 5090 Tier
+              </p>
+              <p class="text-slate-400 text-sm mt-2">
+                Minimum 12GB VRAM. Essential for native VR testing & light
+                baking.
+              </p>
+            </div>
+
+            <div
+              class="bg-slate-900/50 p-6 rounded-xl text-center border-t-4 border-purple-400"
+            >
+              <div class="text-4xl mb-3">⚙️</div>
+              <h3 class="text-purple-400 font-bold text-xl mb-2">CPU</h3>
+              <p class="text-white font-semibold">
+                Intel Core i9 / Ultra 9 OR AMD Ryzen 9
+              </p>
+              <p class="text-slate-400 text-sm mt-2">
+                Prioritize HX series for desktop-grade C++ compilation
+                multithreading.
+              </p>
+            </div>
+
+            <div
+              class="bg-slate-900/50 p-6 rounded-xl text-center border-t-4 border-orange-400"
+            >
+              <div class="text-4xl mb-3">🧠</div>
+              <h3 class="text-orange-400 font-bold text-xl mb-2">RAM</h3>
+              <p class="text-white font-semibold">32GB - 64GB+ DDR5</p>
+              <p class="text-slate-400 text-sm mt-2">
+                Required for running UE5, IDEs, and 3D modeling tools
+                simultaneously.
+              </p>
+            </div>
+
+            <div
+              class="bg-slate-900/50 p-6 rounded-xl text-center border-t-4 border-green-400"
+            >
+              <div class="text-4xl mb-3">🔋</div>
+              <h3 class="text-green-400 font-bold text-xl mb-2">
+                I/O Multiplexing
+              </h3>
+              <p class="text-white font-semibold">
+                Thunderbolt 5 & Direct dGPU
+              </p>
+              <p class="text-slate-400 text-sm mt-2">
+                Verify ports map directly to the NVIDIA GPU for tethered VR (no
+                Optimus bottlenecks).
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="col-span-1 md:col-span-2 glass-card rounded-2xl p-8 mt-4 mb-8 shadow-xl border-t border-slate-700"
+      >
+        <h2
+          class="text-xl md:text-2xl font-bold mb-4 flex items-center gap-3 text-slate-300"
+        >
+          <span class="text-2xl text-slate-500">📚</span> Sources & References
+        </h2>
+        <ul
+          class="list-disc list-inside text-slate-400 text-sm space-y-3 leading-relaxed"
+        >
+          <li>
+            <strong>NVIDIA Corporation</strong> (2026).
+            <em
+              >GeForce RTX 50 Series Mobile Architecture, VRAM Allocation, and
+              NVENC Specifications</em
+            >. Retrieved from NVIDIA Developer Documentation.
+          </li>
+          <li>
+            <strong>Epic Games</strong> (2026).
+            <em
+              >Unreal Engine 5.5 Hardware Requirements for Virtual Reality,
+              Lumen, and DirectStorage Integration</em
+            >. Unreal Engine Developer Portal.
+          </li>
+          <li>
+            <strong>Intel Corporation</strong> (2025-2026).
+            <em
+              >Intel Core Ultra 9 "HX" Series Processor Data Sheets and PCIe
+              Lane Routing</em
+            >.
+          </li>
+          <li>
+            <strong>Thunderbolt Technology Community</strong> (2026).
+            <em
+              >Thunderbolt 5: 120 Gbps Bandwidth, DisplayPort 2.1, and Power
+              Delivery 3.1 Integration Guide</em
+            >.
+          </li>
+          <li>
+            <strong>Hardware Teardowns & Manufacturer Specifications</strong>
+            synthesized from 2026 technical reference manuals for MSI (Titan 18
+            HX AI), ASUS ROG Strix SCAR 18 (2026) (ROG Strix SCAR 18), Razer
+            (Blade 16), Lenovo (Legion Pro 7i Gen 10), and Dell (Pro Max 18
+            Plus).
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer
+      class="border-t border-slate-800 text-center py-8 text-slate-500 text-sm"
+    >
+      <p>
+        Data visualization engineered for optimal performance context. Built
+        with HTML, Tailwind CSS, and Chart.js.
+      </p>
+    </footer>
+
+    <script>
+      const wrapLabels = (labels) => {
+        return labels.map((label) => {
+          if (label.length <= 16) return label;
+          const words = label.split(" ");
+          let lines = [];
+          let currentLine = "";
+          words.forEach((word) => {
+            if ((currentLine + word).length > 16) {
+              if (currentLine) lines.push(currentLine.trim());
+              currentLine = word + " ";
+            } else {
+              currentLine += word + " ";
+            }
+          });
+          if (currentLine) lines.push(currentLine.trim());
+          return lines;
+        });
+      };
+
+      const globalTooltipConfig = {
+        callbacks: {
+          title: function (tooltipItems) {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+              return label.join(" ");
+            } else {
+              return label;
+            }
+          },
+        },
+      };
+
+      Chart.defaults.color = "#cbd5e1";
+      Chart.defaults.font.family =
+        "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+
+      const doughnutCtx = document
+        .getElementById("budgetChart")
+        .getContext("2d");
+      const rawDoughnutLabels = [
+        "NVIDIA GPU (RTX 5090+)",
+        "High-Core CPU (Ultra 9/R9)",
+        "RAM (32GB - 64GB)",
+        "Gen4/5 NVMe Storage",
+        "Thermal Cooling System",
+      ];
+      new Chart(doughnutCtx, {
+        type: "doughnut",
+        data: {
+          labels: wrapLabels(rawDoughnutLabels),
+          datasets: [
+            {
+              data: [45, 25, 15, 5, 10],
+              backgroundColor: [
+                "#06b6d4",
+                "#a855f7",
+                "#f97316",
+                "#10b981",
+                "#3b82f6",
+              ],
+              borderColor: "#0f172a",
+              borderWidth: 2,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: "right" },
+            tooltip: globalTooltipConfig,
+          },
+        },
+      });
+
+      const barCtx = document.getElementById("gpuChart").getContext("2d");
+      const rawBarLabels = [
+        "Mobile Tier 1 (8GB)",
+        "Mobile Tier 2 (12GB)",
+        "Mobile Tier 3 (16GB)",
+        "RTX 5090 Mobile (24GB)",
+      ];
+      new Chart(barCtx, {
+        type: "bar",
+        data: {
+          labels: wrapLabels(rawBarLabels),
+          datasets: [
+            {
+              label: "VR Dev Performance Index",
+              data: [45, 60, 92, 145],
+              backgroundColor: "#06b6d4",
+              borderRadius: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: "rgba(255,255,255,0.05)" },
+            },
+            x: {
+              grid: { display: false },
+            },
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: globalTooltipConfig,
+          },
+        },
+      });
+
+      const lineCtx = document.getElementById("vramChart").getContext("2d");
+      const rawLineLabels = [
+        "UE 4.20 (2018)",
+        "UE 4.25 (2020)",
+        "UE 5.0 (2022)",
+        "UE 5.3 VR (2024)",
+        "UE 5.5+ ArchViz (2026)",
+      ];
+      new Chart(lineCtx, {
+        type: "line",
+        data: {
+          labels: wrapLabels(rawLineLabels),
+          datasets: [
+            {
+              label: "Minimum VRAM Required (GB)",
+              data: [4, 6, 8, 12, 24],
+              borderColor: "#a855f7",
+              backgroundColor: "rgba(168, 85, 247, 0.2)",
+              borderWidth: 3,
+              fill: true,
+              tension: 0.4,
+              pointBackgroundColor: "#f97316",
+              pointRadius: 6,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 32,
+              grid: { color: "rgba(255,255,255,0.05)" },
+            },
+            x: {
+              grid: { display: false },
+            },
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: globalTooltipConfig,
+          },
+        },
+      });
+
+      const radarCtx = document.getElementById("radarChart").getContext("2d");
+      const rawRadarLabels = [
+        "Rasterization FPS",
+        "Ray Tracing Capability",
+        "Asset Compilation Speed",
+        "Light Baking Efficiency",
+        "Heavy Multitasking",
+        "Sustained Thermal Load",
+      ];
+      new Chart(radarCtx, {
+        type: "radar",
+        data: {
+          labels: wrapLabels(rawRadarLabels),
+          datasets: [
+            {
+              label: "Standard Gamer Profile",
+              data: [90, 80, 40, 30, 50, 60],
+              backgroundColor: "rgba(6, 182, 212, 0.2)",
+              borderColor: "#06b6d4",
+              pointBackgroundColor: "#06b6d4",
+              borderWidth: 2,
+            },
+            {
+              label: "XR Developer Profile",
+              data: [85, 90, 95, 100, 95, 100],
+              backgroundColor: "rgba(249, 115, 22, 0.2)",
+              borderColor: "#f97316",
+              pointBackgroundColor: "#f97316",
+              borderWidth: 2,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              angleLines: { color: "rgba(255,255,255,0.1)" },
+              grid: { color: "rgba(255,255,255,0.1)" },
+              pointLabels: {
+                color: "#cbd5e1",
+                font: { size: 11 },
+              },
+              ticks: { display: false, max: 100, min: 0 },
+            },
+          },
+          plugins: {
+            legend: { position: "bottom" },
+            tooltip: globalTooltipConfig,
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
