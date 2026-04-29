@@ -334,6 +334,242 @@ CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output. All d
           </div>
         </div>
       </section>
+      <section
+        class="col-span-1 md:col-span-2 glass-card rounded-2xl p-8 shadow-xl mt-4 border-t-4 border-cyan-500"
+      >
+        <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3">
+          <span class="text-3xl text-cyan-400">💸</span> Interactive Budget vs
+          Performance Matrix
+        </h2>
+
+        <p class="text-slate-300 mb-6 text-lg">
+          Instead of guessing specs, define your budget and observe how hardware
+          requirements scale. XR development exhibits
+          <strong>non-linear cost-performance growth</strong>.
+        </p>
+
+        <!-- SLIDER -->
+        <div class="mb-8">
+          <input
+            id="budgetSlider"
+            type="range"
+            min="1000"
+            max="7000"
+            step="100"
+            value="2500"
+            class="w-full accent-cyan-500 cursor-pointer"
+          />
+          <div class="flex justify-between text-xs text-slate-400 mt-2">
+            <span>$1000</span>
+            <span>$7000+</span>
+          </div>
+        </div>
+
+        <!-- OUTPUT -->
+        <div class="text-center mb-8">
+          <h3 class="text-xl text-slate-300">Selected Budget</h3>
+          <p id="budgetValue" class="text-4xl font-bold text-cyan-400 mt-2">
+            $2500
+          </p>
+        </div>
+
+        <!-- CARDS -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div
+            id="tier1"
+            class="tier-card bg-slate-800 p-5 rounded-xl border border-slate-700 transition-all"
+          >
+            <h4 class="font-bold text-green-400 mb-2">Entry</h4>
+            <ul class="text-sm text-slate-300 space-y-1">
+              <li>RTX 4050–4060</li>
+              <li>16GB RAM</li>
+              <li>Basic UE5</li>
+            </ul>
+          </div>
+
+          <div
+            id="tier2"
+            class="tier-card bg-slate-800 p-5 rounded-xl border border-slate-700 transition-all"
+          >
+            <h4 class="font-bold text-blue-400 mb-2">Recommended</h4>
+            <ul class="text-sm text-slate-300 space-y-1">
+              <li>RTX 4060–4070</li>
+              <li>32GB RAM</li>
+              <li>Stable Dev</li>
+            </ul>
+          </div>
+
+          <div
+            id="tier3"
+            class="tier-card bg-slate-800 p-5 rounded-xl border border-slate-700 transition-all"
+          >
+            <h4 class="font-bold text-orange-400 mb-2">XR Dev</h4>
+            <ul class="text-sm text-slate-300 space-y-1">
+              <li>RTX 4070–4080</li>
+              <li>32–64GB RAM</li>
+              <li>PCVR Ready</li>
+            </ul>
+          </div>
+
+          <div
+            id="tier4"
+            class="tier-card bg-slate-800 p-5 rounded-xl border border-slate-700 transition-all"
+          >
+            <h4 class="font-bold text-red-400 mb-2">Lab / Pro</h4>
+            <ul class="text-sm text-slate-300 space-y-1">
+              <li>RTX 4090–5090</li>
+              <li>64GB+ RAM</li>
+              <li>Virtual Production</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- RECOMMENDATION PANEL -->
+        <div
+          class="mt-10 bg-slate-900 p-6 rounded-xl border border-cyan-500/30 text-center"
+        >
+          <h3 class="text-lg text-slate-300 mb-2">Recommended Configuration</h3>
+          <p id="recommendation" class="text-xl font-semibold text-white"></p>
+        </div>
+        <div id="laptopReco" class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Laptop 1 -->
+          <a
+            id="laptop1"
+            href="#"
+            target="_blank"
+            class="bg-slate-900 p-5 rounded-xl border border-slate-700 hover:border-cyan-400 transition block"
+          >
+            <h4 id="laptop1Name" class="font-bold text-white"></h4>
+            <p id="laptop1Desc" class="text-sm text-slate-400 mt-2"></p>
+          </a>
+
+          <!-- Laptop 2 -->
+          <a
+            id="laptop2"
+            href="#"
+            target="_blank"
+            class="bg-slate-900 p-5 rounded-xl border border-slate-700 hover:border-purple-400 transition block"
+          >
+            <h4 id="laptop2Name" class="font-bold text-white"></h4>
+            <p id="laptop2Desc" class="text-sm text-slate-400 mt-2"></p>
+          </a>
+
+          <!-- Laptop 3 -->
+          <a
+            id="laptop3"
+            href="#"
+            target="_blank"
+            class="bg-slate-900 p-5 rounded-xl border border-slate-700 hover:border-orange-400 transition block"
+          >
+            <h4 id="laptop3Name" class="font-bold text-white"></h4>
+            <p id="laptop3Desc" class="text-sm text-slate-400 mt-2"></p>
+          </a>
+        </div>
+      </section>
+      <section
+        class="col-span-1 md:col-span-2 glass-card rounded-2xl p-8 shadow-xl mt-6 border-t-4 border-purple-500"
+      >
+        <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3">
+          <span class="text-3xl text-purple-400">🧠</span> Smart XR Lab Planner
+        </h2>
+
+        <p class="text-slate-300 mb-8 text-lg">
+          Define your total budget and team size. The system allocates hardware
+          intelligently using real XR workload distribution logic (centralized
+          compute + distributed dev nodes).
+        </p>
+
+        <!-- INPUTS -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div>
+            <label class="text-sm text-slate-400">Total Lab Budget ($)</label>
+            <input
+              id="labBudget"
+              type="number"
+              value="8000"
+              class="w-full mt-2 p-3 rounded bg-slate-900 border border-slate-700 text-white"
+            />
+          </div>
+
+          <div>
+            <label class="text-sm text-slate-400">Team Size</label>
+            <input
+              id="teamSize"
+              type="number"
+              value="5"
+              class="w-full mt-2 p-3 rounded bg-slate-900 border border-slate-700 text-white"
+            />
+          </div>
+
+          <div>
+            <label class="text-sm text-slate-400">XR Intensity</label>
+            <select
+              id="xrLevel"
+              class="w-full mt-2 p-3 rounded bg-slate-900 border border-slate-700 text-white"
+            >
+              <option value="low">Light (AR / Mobile)</option>
+              <option value="medium" selected>Medium (PCVR Dev)</option>
+              <option value="high">High (Cinematic / UE5)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="text-center mb-8">
+          <button
+            onclick="generatePlan()"
+            class="bg-purple-600 hover:bg-purple-500 px-6 py-3 rounded-lg font-bold transition"
+          >
+            Generate Lab Plan
+          </button>
+        </div>
+
+        <!-- OUTPUT -->
+        <div
+          id="labOutput"
+          class="grid grid-cols-1 md:grid-cols-3 gap-6 hidden"
+        >
+          <div
+            class="bg-slate-900 p-6 rounded-xl border border-purple-500/30 text-center"
+          >
+            <h3 class="text-slate-400 text-sm">High-End Machines</h3>
+            <p id="highCount" class="text-3xl font-bold text-red-400 mt-2"></p>
+            <p class="text-xs text-slate-500 mt-2">Shared XR / VR Node</p>
+          </div>
+
+          <div
+            class="bg-slate-900 p-6 rounded-xl border border-purple-500/30 text-center"
+          >
+            <h3 class="text-slate-400 text-sm">Mid-Range Dev Units</h3>
+            <p
+              id="midCount"
+              class="text-3xl font-bold text-orange-400 mt-2"
+            ></p>
+            <p class="text-xs text-slate-500 mt-2">Student Workstations</p>
+          </div>
+
+          <div
+            class="bg-slate-900 p-6 rounded-xl border border-purple-500/30 text-center"
+          >
+            <h3 class="text-slate-400 text-sm">Remaining Budget</h3>
+            <p
+              id="remainingBudget"
+              class="text-3xl font-bold text-cyan-400 mt-2"
+            ></p>
+            <p class="text-xs text-slate-500 mt-2">
+              For upgrades / peripherals
+            </p>
+          </div>
+        </div>
+
+        <!-- STRATEGY TEXT -->
+        <div
+          id="strategyBox"
+          class="mt-8 hidden bg-slate-900 p-6 rounded-xl border border-purple-500/30 text-center"
+        >
+          <h3 class="text-lg text-white mb-2">Recommended Strategy</h3>
+          <p id="strategyText" class="text-slate-300"></p>
+        </div>
+      </section>
 
       <section
         class="col-span-1 md:col-span-2 glass-card rounded-2xl p-8 shadow-xl mt-4 border-t-4 border-cyan-400"
@@ -433,7 +669,7 @@ CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output. All d
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <a
-            href="https://www.msi.com/Laptop/Titan-18-HX-A2WX"
+            href="https://jp.msi.com/Laptop/Titan-18-HX-AI-A2XWX"
             target="_blank"
             class="block cursor-pointer bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-6 hover:border-purple-500 transition-all duration-300 relative"
           >
@@ -459,7 +695,7 @@ CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output. All d
           </a>
 
           <a
-            href="https://rog.asus.com/laptops/rog-strix-series/?items=20394"
+            href="https://rog.asus.com/jp/laptops/rog-strix/rog-strix-scar-18-2024/"
             target="_blank"
             class="block cursor-pointer bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-6 hover:border-cyan-500 transition-all duration-300 relative"
           >
@@ -485,7 +721,7 @@ CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output. All d
           </a>
 
           <a
-            href="https://www.razer.com/gaming-laptops/razer-blade-16"
+            href="https://www.razer.com/jp-jp/gaming-laptops/razer-blade-16-2024"
             target="_blank"
             class="block cursor-pointer bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-6 hover:border-green-500 transition-all duration-300 relative"
           >
@@ -512,7 +748,7 @@ CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output. All d
           </a>
 
           <a
-            href="https://www.lenovo.com/jp/ja/p/laptops/legion-laptops/legion-7-series/legion-pro-7i-gen-10-16-inch-intel/len101g0039?orgRef=https%253A%252F%252Fwww.google.com%252F&srsltid=AfmBOopq1jcpWnDrIXS4PI-Uvs_zU_VEhWc_6PK6rYHibGBalOB2XwfB"
+            href="https://www.lenovo.com/jp/ja/p/laptops/legion-laptops/legion-7-series/legion-pro-7i-gen-10-16-inch-intel/len101g0039"
             target="_blank"
             class="block cursor-pointer bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-6 hover:border-orange-500 transition-all duration-300 relative"
           >
@@ -539,7 +775,7 @@ CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output. All d
           </a>
 
           <a
-            href="https://www.hp.com/jp-ja/gaming-pc/laptops/2025-omen-max16-intel.html"
+            href="https://www.hp.com/jp-ja/gaming-pc/laptops/2023-omen-transcend-intel.html"
             target="_blank"
             class="block cursor-pointer bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-6 hover:border-pink-500 transition-all duration-300 relative"
           >
@@ -566,7 +802,7 @@ CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output. All d
           </a>
 
           <a
-            href="https://www.dell.com/ja-jp/shop/dell%E3%81%AE%E3%83%8E%E3%83%BC%E3%83%88%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3/dell-pro-max-18-plus%E3%83%8E%E3%83%BC%E3%83%88%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3/spd/dell-pro-max-mb18250-laptop"
+            href="https://www.dell.com/ja-jp/shop/dell%E3%81%AE%E3%83%8E%E3%83%BC%E3%83%88%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3/precision-7780-%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9%E3%83%86%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/spd/precision-17-7780-laptop"
             target="_blank"
             class="block cursor-pointer bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-6 hover:border-yellow-500 transition-all duration-300 relative"
           >
@@ -1344,6 +1580,197 @@ CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output. All d
           },
         },
       });
+
+      const slider = document.getElementById("budgetSlider");
+      const valueText = document.getElementById("budgetValue");
+      const recommendation = document.getElementById("recommendation");
+
+      const tiers = {
+        tier1: document.getElementById("tier1"),
+        tier2: document.getElementById("tier2"),
+        tier3: document.getElementById("tier3"),
+        tier4: document.getElementById("tier4"),
+      };
+
+      function resetHighlight() {
+        Object.values(tiers).forEach((t) => {
+          t.classList.remove("ring-2", "ring-cyan-400", "scale-105");
+        });
+      }
+
+      function updateUI(value) {
+        valueText.textContent = "$" + value;
+
+        resetHighlight();
+
+        let laptops = [];
+
+        // 🔹 ENTRY (~¥120k–¥200k)
+        if (value < 1500) {
+          tiers.tier1.classList.add("ring-2", "ring-green-400", "scale-105");
+          recommendation.textContent =
+            "Entry-level (Japan market): Learning XR & Unity.";
+
+          laptops = [
+            {
+              name: "ASUS TUF Gaming A15 (RTX 4050)",
+              desc: "Widely available in Japan. Good thermals for beginners.",
+              link: "https://www.asus.com/jp/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a15-2024/",
+            },
+            {
+              name: "HP Victus 15 (RTX 4050/5050)",
+              desc: "Common student option with stable pricing.",
+              link: "https://jp.ext.hp.com/gaming/personal/victus_15_fa/", // Corrected exact HP Japan product page
+            },
+            {
+              name: "Lenovo LOQ 15",
+              desc: "Best budget-performance via Lenovo Japan store.",
+              link: "https://www.lenovo.com/jp/ja/d/top-gaming-notebooks/",
+            },
+          ];
+        }
+
+        // 🔹 MID (~¥200k–¥350k)
+        else if (value < 2500) {
+          tiers.tier2.classList.add("ring-2", "ring-blue-400", "scale-105");
+          recommendation.textContent =
+            "Baseline XR Development (Japan sweet spot).";
+
+          laptops = [
+            {
+              name: "Lenovo Legion Pro 5",
+              desc: "Most balanced choice for Japanese labs (often discounted).",
+              link: "https://www.lenovo.com/jp/ja/legion/",
+            },
+            {
+              name: "ASUS ROG Strix G16",
+              desc: "Strong Unreal Engine performance, widely stocked.",
+              link: "https://rog.asus.com/jp/laptops/rog-strix/rog-strix-g16-2024/",
+            },
+            {
+              name: "Dell G16",
+              desc: "Reliable with good after-sales support in Japan.",
+              link: "https://www.dell.com/ja-jp/shop/gaming-and-games/g16%E3%82%B2%E3%83%BC%E3%83%9F%E3%83%B3%E3%82%B0-%E3%83%8E%E3%83%BC%E3%83%88%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3/spd/g-series-16-7630-laptop",
+            },
+          ];
+        }
+
+        // 🔹 HIGH-END (~¥350k–¥550k)
+        else if (value < 4000) {
+          tiers.tier3.classList.add("ring-2", "ring-orange-400", "scale-105");
+          recommendation.textContent = "PCVR Development Tier (Lab-ready).";
+
+          laptops = [
+            {
+              name: "Lenovo Legion Pro 7i",
+              desc: "Best price-to-performance RTX 4080/4090 class in Japan.",
+              link: "https://www.lenovo.com/jp/ja/p/laptops/legion-laptops/legion-7-series/legion-pro-7i-gen-10-16-inch-intel/len101g0039",
+            },
+            {
+              name: "MSI Vector 16 HX",
+              desc: "High GPU wattage, ideal for sustained workloads.",
+              link: "https://jp.msi.com/Laptop/Vector-16-HX-A13VX",
+            },
+            {
+              name: "ASUS ROG Strix SCAR 16",
+              desc: "Top-tier gaming + dev hybrid, easy to find in JP retailers.",
+              link: "https://rog.asus.com/jp/laptops/rog-strix/rog-strix-scar-16-2024/",
+            },
+          ];
+        }
+
+        // 🔹 EXTREME (~¥550k+)
+        else {
+          tiers.tier4.classList.add("ring-2", "ring-red-400", "scale-105");
+          recommendation.textContent =
+            "Lab-grade XR / UE5 Production (Japan flagship tier).";
+
+          laptops = [
+            {
+              name: "MSI Titan 18 HX AI",
+              desc: "Desktop replacement sold in Japan for extreme workloads.",
+              link: "https://jp.msi.com/Laptop/Titan-18-HX-AI-A2XWX",
+            },
+            {
+              name: "ASUS ROG Strix SCAR 18",
+              desc: "Best cooling + RTX 5090-class GPU performance.",
+              link: "https://rog.asus.com/jp/laptops/rog-strix/rog-strix-scar-18-2024/",
+            },
+            {
+              name: "Razer Blade 16 (Japan)",
+              desc: "Premium portable XR workstation.",
+              link: "https://www.razer.com/jp-jp/gaming-laptops/razer-blade-16-2024",
+            },
+          ];
+        }
+
+        // 🔻 APPLY TO UI
+        document.getElementById("laptop1Name").textContent = laptops[0].name;
+        document.getElementById("laptop1Desc").textContent = laptops[0].desc;
+        document.getElementById("laptop1").href = laptops[0].link;
+
+        document.getElementById("laptop2Name").textContent = laptops[1].name;
+        document.getElementById("laptop2Desc").textContent = laptops[1].desc;
+        document.getElementById("laptop2").href = laptops[1].link;
+
+        document.getElementById("laptop3Name").textContent = laptops[2].name;
+        document.getElementById("laptop3Desc").textContent = laptops[2].desc;
+        document.getElementById("laptop3").href = laptops[2].link;
+      }
+      slider.addEventListener("input", (e) => {
+        updateUI(e.target.value);
+      });
+
+      // INIT
+      updateUI(slider.value);
+      function generatePlan() {
+        const budget = parseInt(document.getElementById("labBudget").value);
+        const team = parseInt(document.getElementById("teamSize").value);
+        const level = document.getElementById("xrLevel").value;
+
+        let highCost = 3500;
+        let midCost = 1500;
+
+        if (level === "low") {
+          highCost = 2500;
+          midCost = 1000;
+        } else if (level === "high") {
+          highCost = 4000;
+          midCost = 2000;
+        }
+
+        let highCount = 1;
+        let remaining = budget - highCost;
+
+        let midCount = Math.floor(remaining / midCost);
+
+        if (midCount > team) midCount = team;
+
+        remaining = budget - (highCount * highCost + midCount * midCost);
+
+        document.getElementById("highCount").textContent = highCount;
+        document.getElementById("midCount").textContent = midCount;
+        document.getElementById("remainingBudget").textContent =
+          "$" + remaining;
+
+        document.getElementById("labOutput").classList.remove("hidden");
+        document.getElementById("strategyBox").classList.remove("hidden");
+
+        let strategy = "";
+
+        if (level === "low") {
+          strategy =
+            "Focus on distributed low-cost laptops. XR rendering is minimal; prioritize CPU and RAM.";
+        } else if (level === "medium") {
+          strategy =
+            "Use 1 shared high-end VR machine and multiple mid-tier laptops. This balances cost and XR capability.";
+        } else {
+          strategy =
+            "High-intensity XR requires strong centralized hardware. Prioritize GPU power and VRAM capacity.";
+        }
+
+        document.getElementById("strategyText").textContent = strategy;
+      }
     </script>
   </body>
 </html>
